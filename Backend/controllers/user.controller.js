@@ -2,7 +2,6 @@ import bcryptjs from "bcryptjs";
 import UserModel from "../models/user.model.js";
 
 export async function signInController(req,res){
-    console.log('reached signin controller')
 
     try{
         const {username,email,password} = req.body;
@@ -18,11 +17,12 @@ export async function signInController(req,res){
         const hashPassword = await bcryptjs.hash(password,salt);
 
         const newUser = new UserModel({username:username,email:email,password:hashPassword});
-        const save = newUser.save();
-
+        const save = await newUser.save();
+        
         return res.status(200).json({
             message:"Account created successfully",
-            success:true
+            success:true,
+            data:save
         })
 
     } catch (error) {

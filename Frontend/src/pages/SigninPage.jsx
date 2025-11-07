@@ -30,7 +30,7 @@ const SigninPage = () => {
                 return
             }
 
-            console.log('Registration Successfull');
+            console.log('Registration Successfull : ', response.data.data);
 
         } catch(error) {
             console.log(`Error occured in fetching data : ${error}`);
