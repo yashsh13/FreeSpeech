@@ -26,7 +26,7 @@ const SigninPage = () => {
             );
 
             if(!response.data.success){
-                console.log('Response did not succedd');
+                console.log('Response did not succedd : ',response.data.message);
                 return
             }
 

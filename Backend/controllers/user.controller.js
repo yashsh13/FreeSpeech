@@ -13,6 +13,23 @@ export async function signInController(req,res){
             })
         }
 
+        const alreadyExistUserName = await UserModel.findOne({username:username});
+        const alreadyExistEmail = await UserModel.findOne({email:email});
+
+        if(alreadyExistUserName){
+            res.json({
+                message:"Username Already Exists",
+                success:false
+            })
+        }
+
+        if(alreadyExistEmail){
+            res.json({
+                message:"Email Already Exists",
+                success:false
+            })
+        }
+
         const salt = await bcryptjs.genSalt(10);
         const hashPassword = await bcryptjs.hash(password,salt);
 
