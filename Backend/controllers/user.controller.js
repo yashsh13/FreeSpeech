@@ -67,7 +67,7 @@ export async function logInController(req,res){
             })
         }
 
-        const correctPassword = await bcrypt.compare(password,userInfo.password);
+        const correctPassword = await bcryptjs.compare(password,userInfo.password);
 
         if(!correctPassword){
             return res.json({
@@ -82,9 +82,8 @@ export async function logInController(req,res){
         })
     } catch (error) {
         return res.json({
-            message:"login controller error",
+            message:"login controller error : "+error,
             success:false,
-            error:error
         })
     }
 }
