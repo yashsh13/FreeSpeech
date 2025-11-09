@@ -51,3 +51,40 @@ export async function signInController(req,res){
     }
 
 }
+
+export async function logInController(req,res){
+
+    try{
+        const {email,password} = req.body;
+        
+        const userInfo = await UserModel.findOne({email:email});
+
+        if(!userInfo){
+
+            return res.json({
+                message:"This email is not registered",
+                success:false
+            })
+        }
+
+        const correctPassword = await bcrypt.compare(password,userInfo.password);
+
+        if(!correctPassword){
+            return res.json({
+                message:"Password is Invalid",
+                success:false
+            })
+        }
+
+        return res.json({
+            message:"Login Successful",
+            success:true
+        })
+    } catch (error) {
+        return res.json({
+            message:"login controller error",
+            success:false,
+            error:error
+        })
+    }
+}
