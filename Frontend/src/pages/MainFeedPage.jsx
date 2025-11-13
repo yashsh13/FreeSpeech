@@ -1,4 +1,5 @@
 import {useState} from "react";
+import axios from "axios";
 
 const MainFeedPage = () =>{
 
@@ -8,6 +9,26 @@ const MainFeedPage = () =>{
         setEnterPost(e.target.value);
     }
 
+    const insertPosts = async () => {
+
+        try{
+
+            const response = await axios.post('http://localhost:3000/api/posts/getpost',
+                enterPost,
+                {headers:{"Content-Type":"application/json"}}
+            );
+
+            if(!respone.data.success){
+                console.log('insertPosts axios response failed : '+response.data.message);
+            }
+
+            console.log('Posted successfully');
+
+        } catch (error) {
+            console.log('Error in insertPosts axios request: '+error);
+        }
+
+    }
 
     return(
         <div className="flex flex-row items-start">
