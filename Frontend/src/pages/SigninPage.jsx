@@ -1,7 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const SigninPage = () => {
+
+    const navigate = useNavigate();
 
     const [formData,setFormData] = useState({
         username:'',
@@ -29,6 +32,11 @@ const SigninPage = () => {
                 console.log('Response did not succedd : ',response.data.message);
                 return
             }
+
+            const token = response.data.token;
+            localStorage.setItem('token',token);
+
+            navigate('../feed');
 
             console.log('Registration Successfull : ', response.data.data);
 
