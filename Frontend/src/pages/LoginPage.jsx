@@ -1,8 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 
 const LoginPage = () => {
+
+    const navigate = useNavigate();
 
     const [formData,setFormData] = useState({
         email:'',
@@ -32,6 +35,11 @@ const LoginPage = () => {
                 console.log('Response failed ',response.data.message);
                 return
             }
+
+            const token = response.data.token;
+            localStorage.setItem('token',token);
+
+            navigate('../feed');
 
             console.log('Response Success : ',response.data.message);
             return

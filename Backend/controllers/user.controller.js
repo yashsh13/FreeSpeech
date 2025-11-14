@@ -1,5 +1,9 @@
 import bcryptjs from "bcryptjs";
 import UserModel from "../models/user.model.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export async function signInController(req,res){
 
@@ -35,11 +39,14 @@ export async function signInController(req,res){
 
         const newUser = new UserModel({username:username,email:email,password:hashPassword});
         const save = await newUser.save();
+
+        const token = jwt.sign({userID:newUser._id},process.env.JWT_PASSWORD);
         
         return res.status(200).json({
             message:"Account created successfully",
             success:true,
-            data:save
+            data:save,
+            token:token
         })
 
     } catch (error) {
@@ -76,9 +83,12 @@ export async function logInController(req,res){
             })
         }
 
+        const token = jwt.sign({userID:userInfo._id},process.env.JWT_PASSWORD);
+
         return res.json({
             message:"Login Successful",
-            success:true
+            success:true,
+            token:token
         })
     } catch (error) {
         return res.json({
