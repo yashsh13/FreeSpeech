@@ -4,13 +4,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const auth = (req,res,next) => {
-
+    
     try{
         const token = req.headers.token;
 
         const decoded = jwt.verify(token,process.env.JWT_PASSWORD);
 
-        req.id = decoded.userID;
+        req.userID = decoded.userID;
 
         next();
 

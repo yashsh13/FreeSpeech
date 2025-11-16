@@ -2,6 +2,7 @@ import express from "express";
 import connectDb from "./utils/db.js";
 import UserRouter from "./routes/user.routes.js";
 import cors from "cors";
+import postRouter from "./routes/post.routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -18,6 +19,7 @@ app.use(cors({
 }));
 
 app.use("/api/user",UserRouter);
+app.use("/api/card",postRouter);
 
 await connectDb().then(()=>{
     app.listen(PORT,()=>{

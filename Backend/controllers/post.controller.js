@@ -1,15 +1,18 @@
-import postModel from "../models/post.model";
+import postModel from "../models/post.model.js";
+import UserModel from "../models/user.model.js";
 
 export async function insertPost(req,res){
-
+    
     try{
-        const postData = req.body;
+        const postData = req.body.data;
 
-        //check if logged in 
+        const userID =  req.userID;
 
-        //get the username
+        const userInfo = await UserModel.findOne({_id:userID});
 
-        const newPost = new postData({postdata:postData,username:username});
+        const username = userInfo.username;
+
+        const newPost = new postModel({postdata:postData,username:username});
         const save = await newPost.save();
 
         return res.json({
@@ -27,3 +30,22 @@ export async function insertPost(req,res){
     
 
 } 
+
+export async function getPosts(req,res){
+    try{
+        
+        const posts = await postModel.find({});
+        
+        return res.json({
+            message:'Got the posts',
+            success:true,
+            posts:posts
+        })
+
+    } catch (error) {
+        return res.json({
+            message:'Get posts controller error : '+error,
+            success:false
+        })
+    }
+}
