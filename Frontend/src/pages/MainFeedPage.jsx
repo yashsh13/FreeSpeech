@@ -1,10 +1,12 @@
 import { useState , useEffect } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 
 const MainFeedPage = () =>{
 
     const [enterPost,setEnterPost] = useState('');
     const [posts,setPosts] = useState([]);
+    const navigate = useNavigate();
 
     const handleChange = (e)=>{
         setEnterPost(e.target.value);
@@ -54,9 +56,20 @@ const MainFeedPage = () =>{
 
     }
 
+    const isLoggedin = ()=>{
+        const token = localStorage.getItem('token');
+        if(!token){
+            navigate('../login');
+        }
+    }
+
     useEffect(()=>{
         getposts();
     },[posts]);
+
+    useEffect(()=>{
+        isLoggedin();
+    },[])
 
     return(
         <div className="flex flex-row items-start">
